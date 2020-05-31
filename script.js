@@ -3,13 +3,11 @@ let count = 6;
 
 let all_txt = document.getElementById('text_mousemove');
 let w_el, h_el;
-
-for(let i = 0; i < count; i++){
+for (let i = 0; i < count; i++) {
     all_txt.innerHTML += '<div class="word">' + all_txt.getAttribute('attr_txt') + '</div>';
 }
 
 let all_word = document.getElementsByClassName('word');
-
 let style = document.createElement('style');
 style.innerHTML = `
   .word {
@@ -40,22 +38,11 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 let x, y, multi_x, multi_y;
-
 all_txt.addEventListener('mousemove', e => {
     x = e.offsetX;
     y = e.offsetY;
-
-    multi_x = x / (w_el / 2);
-    multi_y = y / (h_el / 2);
-    sign_x = 1;
-    sign_y = 1;
-
-    if (multi_x < 1) {
-        multi_x = (2 - multi_x * multi_x) * (-1);
-    }
-    if (multi_y < 1) {
-        multi_y = (2 - multi_y * multi_y) * (-1);
-    }
+    multi_x = (w_el / 2) < x ? x / (w_el / 2) : (2 - Math.pow((x / (w_el / 2)), 2)) * (-1);
+    multi_y = (h_el / 2) < y ? y / (h_el / 2) : (2 - Math.pow((y / (h_el / 2)), 2)) * (-1);
 
     for (let i = 1; i <= all_word.length; i++) {
         all_word[i - 1].style.transform = "translate(" + Math.pow(multi_x, 3) * i + "px, " + Math.pow(multi_y, 3) * i + "px)";
